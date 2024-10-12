@@ -9,7 +9,7 @@
       </a-layout-content>
       <a-layout-footer class="footer">
         <a href="https://github.com/Stay2003" target="_blank">
-          编程导航 by 程序员思源
+          编程 by 程序员思源
         </a>
       </a-layout-footer>
     </a-layout>
