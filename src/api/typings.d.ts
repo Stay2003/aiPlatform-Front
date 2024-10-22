@@ -77,7 +77,6 @@ declare namespace API {
     reviewTime?: string;
     reviewerId?: number;
     scoringStrategy?: number;
-    tagList?: string[];
     updateTime?: string;
     user?: UserVO;
     userId?: number;
@@ -225,17 +224,6 @@ declare namespace API {
     code?: number;
     data?: UserVO;
     message?: string;
-  };
-
-  type checkUsingGETParams = {
-    /** echostr */
-    echostr?: string;
-    /** nonce */
-    nonce?: string;
-    /** signature */
-    signature?: string;
-    /** timestamp */
-    timestamp?: string;
   };
 
   type DeleteRequest = {
@@ -654,14 +642,14 @@ declare namespace API {
 
   type ScoringResultVO = {
     appId?: number;
-    content?: string;
+    createTime?: string;
     id?: number;
     resultDesc?: string;
     resultName?: string;
     resultPicture?: string;
     resultProp?: string[];
     resultScoreRange?: number;
-    title?: string;
+    updateTime?: string;
     user?: UserVO;
     userId?: number;
   };
@@ -761,11 +749,6 @@ declare namespace API {
     updateTime?: string;
     user?: UserVO;
     userId?: number;
-  };
-
-  type userLoginByWxOpenUsingGETParams = {
-    /** code */
-    code: string;
   };
 
   type UserLoginRequest = {

@@ -27,12 +27,15 @@ import GlobalHeader from "@/components/GlobalHeader.vue";
 #basicLayout .header {
   margin-bottom: 16px;
   box-shadow: #eee 1px 1px 5px;
+  z-index: 1000;
+  position: relative;
 }
 
 #basicLayout .content {
   margin-bottom: 28px;
   padding: 20px;
   background: linear-gradient(to right, #fefefe, #fff);
+  z-index: 800;
 }
 
 .footer {

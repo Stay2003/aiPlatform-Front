@@ -86,6 +86,7 @@
 import { ref, watchEffect } from "vue";
 import {
   deleteAppUsingPost,
+  doAppReviewUsingPost,
   listAppByPageUsingPost,
 } from "@/api/appController";
 import API from "@/api";
@@ -97,7 +98,6 @@ import {
   REVIEW_STATUS_ENUM,
   REVIEW_STATUS_MAP,
 } from "@/constant/app";
-import { doAppReviewUsingPost } from "@/api/appController";
 
 const formSearchParams = ref<API.AppQueryRequest>({});
 
