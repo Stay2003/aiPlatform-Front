@@ -14,15 +14,15 @@
       <a-form-item field="appDesc" label="应用描述">
         <a-input v-model="form.appDesc" placeholder="请输入应用描述" />
       </a-form-item>
-      <a-form-item field="appIcon" label="应用图标">
-        <a-input v-model="form.appIcon" placeholder="请输入应用图标" />
-      </a-form-item>
-      <!--      <a-form-item field="appIcon" label="应用图标">-->
-      <!--        <PictureUploader-->
-      <!--          :value="form.appIcon"-->
-      <!--          :onChange="(value) => (form.appIcon = value)"-->
-      <!--        />-->
-      <!--      </a-form-item>-->
+<!--      <a-form-item field="appIcon" label="应用图标">-->
+<!--        <a-input v-model="form.appIcon" placeholder="请输入应用图标" />-->
+<!--      </a-form-item>-->
+            <a-form-item field="appIcon" label="应用图标">
+              <PictureUploader
+                :value="form.appIcon"
+                :onChange="(value) => (form.appIcon = value)"
+               biz="app_icon"/>
+            </a-form-item>
       <a-form-item field="appType" label="应用类型">
         <a-select
           v-model="form.appType"
@@ -69,19 +69,24 @@ import {
   getAppVoByIdUsingGet,
 } from "@/api/appController";
 import { APP_SCORING_STRATEGY_MAP, APP_TYPE_MAP } from "@/constant/app";
+import PictureUploader from "@/components/PictureUploader.vue";
 
+//使用接口 Props 定义组件接受的属性 id，其类型为字符串。
 interface Props {
   id: string;
 }
 
+//使用 withDefaults 设置 id 的默认值为空字符串。
 const props = withDefaults(defineProps<Props>(), {
   id: () => {
     return "";
   },
 });
 
+//useRouter 获取路由对象以便进行页面跳转
 const router = useRouter();
 
+//表单字段
 const form = ref({
   appDesc: "",
   appIcon: "",
@@ -90,6 +95,7 @@ const form = ref({
   scoringStrategy: 0,
 } as API.AppAddRequest);
 
+//存放旧应用数据（在编辑模式下使用）
 const oldApp = ref<API.AppVO>();
 
 /**
