@@ -17,6 +17,7 @@ import AddScoringResultPage from "@/views/add/AddScoringResultPage.vue";
 import DoAnswerPage from "@/views/answer/DoAnswerPage.vue";
 import AnswerResultPage from "@/views/answer/AnswerResultPage.vue";
 import MyAnswerPage from "@/views/answer/MyAnswerPage.vue";
+import UserProfilePage from "@/views/user/UserProfilePage.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -163,6 +164,11 @@ export const routes: Array<RouteRecordRaw> = [
         path: "/user/register",
         name: "用户注册",
         component: UserRegisterPage,
+      },
+      {
+        path: "/user/profile",
+        name: "用户信息",
+        component: UserProfilePage,
       },
     ],
     meta: {

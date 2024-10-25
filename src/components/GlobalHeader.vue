@@ -22,8 +22,19 @@
       </a-menu>
     </a-col>
     <a-col flex="100px">
-      <div v-if="loginUserStore.loginUser.id">
-        {{ loginUserStore.loginUser.userName ?? "无名" }}
+      <div v-if="loginUserStore.loginUser.id" style="display: flex; align-items: center;">
+        <router-link :to="{ name: '用户信息' }">
+          <a-avatar
+            :style="{
+          marginRight: '8px',
+          verticalAlign: 'middle',
+          backgroundColor: '#14a9f8'
+        }"
+          >
+            {{ loginUserStore.loginUser.userName ?? "无名" }}
+          </a-avatar>
+        </router-link>
+        <span>{{ loginUserStore.loginUser.userName ?? "无名" }}</span>
       </div>
       <div v-else>
         <a-button type="primary" href="/user/login">登录</a-button>
