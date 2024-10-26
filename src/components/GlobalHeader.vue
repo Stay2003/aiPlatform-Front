@@ -22,14 +22,17 @@
       </a-menu>
     </a-col>
     <a-col flex="100px">
-      <div v-if="loginUserStore.loginUser.id" style="display: flex; align-items: center;">
+      <div
+        v-if="loginUserStore.loginUser.id"
+        style="display: flex; align-items: center"
+      >
         <router-link :to="{ name: '用户信息' }">
           <a-avatar
             :style="{
-          marginRight: '8px',
-          verticalAlign: 'middle',
-          backgroundColor: '#14a9f8'
-        }"
+              marginRight: '8px',
+              verticalAlign: 'middle',
+              backgroundColor: '#14a9f8',
+            }"
           >
             {{ loginUserStore.loginUser.userName ?? "无名" }}
           </a-avatar>
