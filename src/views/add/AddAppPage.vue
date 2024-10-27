@@ -1,67 +1,61 @@
 <template>
   <div id="addAppPage" class="form-container">
+    <div class="back-button">
+      <el-button round @click="goBack"><el-icon><Back /></el-icon>返回</el-button>
+    </div>
     <h2>创建应用</h2>
-    <a-form
+    <el-form
       :model="form"
       :style="{ width: '480px' }"
-      label-align="left"
-      auto-label-width
-      @submit="handleSubmit"
+      label-position="left"
+      :label-width="'100px'"
+      @submit.prevent="handleSubmit"
     >
-      <a-form-item field="appName" label="应用名称">
-        <a-input v-model="form.appName" placeholder="请输入应用名称" />
-      </a-form-item>
-      <a-form-item field="appDesc" label="应用描述">
-        <a-input v-model="form.appDesc" placeholder="请输入应用描述" />
-      </a-form-item>
-      <a-form-item field="appIcon" label="应用图标">
+      <el-form-item label="应用名称" prop="appName">
+        <el-input v-model="form.appName" placeholder="请输入应用名称" />
+      </el-form-item>
+      <el-form-item label="应用描述" prop="appDesc">
+        <el-input v-model="form.appDesc" placeholder="请输入应用描述" />
+      </el-form-item>
+      <el-form-item label="应用图标" prop="appIcon">
         <PictureUploader
           :value="form.appIcon"
           :onChange="(value) => (form.appIcon = value)"
           biz="app_icon"
         />
-      </a-form-item>
-      <a-form-item field="appType" label="应用类型">
-        <a-select
-          v-model="form.appType"
-          :style="{ width: '320px' }"
-          placeholder="请选择应用类型"
-        >
-          <a-option
+      </el-form-item>
+      <el-form-item label="应用类型" prop="appType">
+        <el-select v-model="form.appType" placeholder="请选择应用类型">
+          <el-option
             v-for="(value, key) of APP_TYPE_MAP"
             :key="key"
             :value="Number(key)"
             :label="value"
           />
-        </a-select>
-      </a-form-item>
-      <a-form-item field="scoringStrategy" label="评分策略">
-        <a-select
-          v-model="form.scoringStrategy"
-          :style="{ width: '320px' }"
-          placeholder="请选择评分策略"
-        >
-          <a-option
+        </el-select>
+      </el-form-item>
+      <el-form-item label="评分策略" prop="scoringStrategy">
+        <el-select v-model="form.scoringStrategy" placeholder="请选择评分策略">
+          <el-option
             v-for="(value, key) of APP_SCORING_STRATEGY_MAP"
             :key="key"
             :value="Number(key)"
             :label="value"
           />
-        </a-select>
-      </a-form-item>
-      <a-form-item>
-        <a-button type="primary" html-type="submit" style="width: 120px">
-          提交
-        </a-button>
-      </a-form-item>
-    </a-form>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" html-type="submit" style="width: 120px">
+          提交审核
+        </el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
 <script setup lang="ts">
 import { defineProps, ref, watchEffect, withDefaults } from "vue";
-import API from "@/api";
-import message from "@arco-design/web-vue/es/message"; // Assuming this is correct
+import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 import {
   addAppUsingPost,
@@ -70,6 +64,7 @@ import {
 } from "@/api/appController";
 import { APP_SCORING_STRATEGY_MAP, APP_TYPE_MAP } from "@/constant/app";
 import PictureUploader from "@/components/PictureUploader.vue";
+import { Back } from '@element-plus/icons-vue';
 
 interface Props {
   id: string;
@@ -131,6 +126,11 @@ const handleSubmit = async () => {
     message.error("操作失败，" + res.data.message);
   }
 };
+
+// 返回功能
+const goBack = () => {
+  router.push("/");
+};
 </script>
 
 <style scoped>
@@ -142,6 +142,10 @@ const handleSubmit = async () => {
   margin-top: 20px; /* 添加这个属性，调整向下的距离 */
 }
 
+.back-button {
+  align-self: flex-start; /* 将返回按钮定位到左上角 */
+  margin-bottom: 16px; /* 设置返回按钮与标题之间的间距 */
+}
 
 h2 {
   margin-bottom: 32px;

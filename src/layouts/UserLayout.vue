@@ -11,15 +11,17 @@
         <router-view />
       </el-main>
       <el-footer class="footer">
-        <a href="https://github.com/Stay2003" target="_blank">
-          编程导航 by 程序员思源
-        </a>
+<!--        <a href="https://github.com/Stay2003" target="_blank">-->
+<!--          <el-text class="mx-1" type="primary">编程导航 by 程序员思源</el-text>-->
+<!--        </a>-->
+        <el-link type="primary" href="https://github.com/Stay2003" target="_blank">编程导航 by 程序员思源</el-link>
       </el-footer>
     </el-container>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+</script>
 
 <style scoped>
 #userLayout {

@@ -83,7 +83,6 @@ import { routes } from "@/router/routes";
 import { useLoginUserStore } from "@/store/userStore";
 import checkAccess from "@/access/checkAccess";
 import { userLogoutUsingPost } from "@/api/userController";
-import { message } from "ant-design-vue";
 
 const loginUserStore = useLoginUserStore();
 const router = useRouter();

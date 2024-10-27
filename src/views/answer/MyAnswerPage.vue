@@ -1,39 +1,39 @@
 <template>
-  <a-form
+  <el-form
     :model="formSearchParams"
     :style="{ marginBottom: '20px' }"
-    layout="inline"
-    @submit="doSearch"
+    inline
+    @submit.prevent="doSearch"
   >
-    <a-form-item field="resultName" label="结果名称">
-      <a-input
+    <el-form-item label="结果名称" prop="resultName">
+      <el-input
         v-model="formSearchParams.resultName"
         placeholder="请输入结果名称"
-        allow-clear
+        clearable
       />
-    </a-form-item>
-    <a-form-item field="resultDesc" label="结果描述">
-      <a-input
+    </el-form-item>
+    <el-form-item label="结果描述" prop="resultDesc">
+      <el-input
         v-model="formSearchParams.resultDesc"
         placeholder="请输入结果描述"
-        allow-clear
+        clearable
       />
-    </a-form-item>
-    <a-form-item field="appId" label="应用 id">
-      <a-input
+    </el-form-item>
+    <el-form-item label="应用 id" prop="appId">
+      <el-input
         v-model="formSearchParams.appId"
         placeholder="请输入应用 id"
-        allow-clear
+        clearable
       />
-    </a-form-item>
-    <a-form-item>
-      <a-button type="primary" html-type="submit" style="width: 100px">
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="doSearch" style="width: 100px">
         搜索
-      </a-button>
-    </a-form-item>
-  </a-form>
-  <a-table
-    :columns="columns"
+      </el-button>
+    </el-form-item>
+  </el-form>
+
+  <el-table
     :data="dataList"
     :pagination="{
       showTotal: true,
@@ -43,27 +43,41 @@
     }"
     @page-change="onPageChange"
   >
-    <template #resultPicture="{ record }">
-      <a-image width="64" :src="record.resultPicture" />
-    </template>
-    <template #appType="{ record }">
-      {{ APP_TYPE_MAP[record.appType] }}
-    </template>
-    <template #scoringStrategy="{ record }">
-      {{ APP_SCORING_STRATEGY_MAP[record.scoringStrategy] }}
-    </template>
-    <template #createTime="{ record }">
-      {{ dayjs(record.createTime).format("YYYY-MM-DD HH:mm:ss") }}
-    </template>
-    <template #updateTime="{ record }">
-      {{ dayjs(record.updateTime).format("YYYY-MM-DD HH:mm:ss") }}
-    </template>
-    <template #optional="{ record }">
-      <a-space>
-        <a-button status="danger" @click="doDelete(record)">删除</a-button>
-      </a-space>
-    </template>
-  </a-table>
+    <el-table-column prop="id" label="id" />
+    <el-table-column prop="choices" label="选项" />
+    <el-table-column prop="resultId" label="结果 id" />
+    <el-table-column prop="resultName" label="名称" />
+    <el-table-column prop="resultDesc" label="描述" />
+    <el-table-column label="图片">
+      <template #default="{ row }">
+        <el-image width="64" :src="row.resultPicture" />
+      </template>
+    </el-table-column>
+    <el-table-column prop="resultScore" label="得分" />
+    <el-table-column prop="appId" label="应用 id" />
+    <el-table-column prop="appType" label="应用类型">
+      <template #default="{ row }">
+        {{ APP_TYPE_MAP[row.appType] }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="scoringStrategy" label="评分策略">
+      <template #default="{ row }">
+        {{ APP_SCORING_STRATEGY_MAP[row.scoringStrategy] }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="createTime" label="创建时间">
+      <template #default="{ row }">
+        {{ dayjs(row.createTime).format("YYYY-MM-DD HH:mm:ss") }}
+      </template>
+    </el-table-column>
+    <el-table-column label="操作">
+      <template #default="{ row }">
+        <el-space>
+          <el-button type="danger" @click="doDelete(row)">删除</el-button>
+        </el-space>
+      </template>
+    </el-table-column>
+  </el-table>
 </template>
 
 <script setup lang="ts">
@@ -150,60 +164,4 @@ const doDelete = async (record: API.UserAnswer) => {
 watchEffect(() => {
   loadData();
 });
-
-// 表格列配置
-const columns = [
-  {
-    title: "id",
-    dataIndex: "id",
-  },
-  {
-    title: "选项",
-    dataIndex: "choices",
-  },
-  {
-    title: "结果 id",
-    dataIndex: "resultId",
-  },
-  {
-    title: "名称",
-    dataIndex: "resultName",
-  },
-  {
-    title: "描述",
-    dataIndex: "resultDesc",
-  },
-  {
-    title: "图片",
-    dataIndex: "resultPicture",
-    slotName: "resultPicture",
-  },
-  {
-    title: "得分",
-    dataIndex: "resultScore",
-  },
-  {
-    title: "应用 id",
-    dataIndex: "appId",
-  },
-  {
-    title: "应用类型",
-    dataIndex: "appType",
-    slotName: "appType",
-  },
-  {
-    title: "评分策略",
-    dataIndex: "scoringStrategy",
-    slotName: "scoringStrategy",
-  },
-  {
-    title: "创建时间",
-    dataIndex: "createTime",
-    slotName: "createTime",
-  },
-  {
-    title: "操作",
-    slotName: "optional",
-  },
-];
 </script>

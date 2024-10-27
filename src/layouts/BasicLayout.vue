@@ -8,9 +8,10 @@
         <router-view />
       </el-main>
       <el-footer class="footer">
-        <a href="https://github.com/Stay2003" target="_blank">
-          编程 by 程序员思源
-        </a>
+        <!--        <a href="https://github.com/Stay2003" target="_blank">-->
+        <!--          <el-text class="mx-1" type="primary">编程 by 程序员思源</el-text>-->
+        <!--        </a>-->
+        <el-link href="https://github.com/Stay2003" target="_blank">编程 by 程序员思源</el-link>
       </el-footer>
     </el-container>
   </div>
