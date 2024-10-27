@@ -4,28 +4,28 @@
       <div class="sidebar-menu">
         <ul>
           <li @click="router.push('/')">
-            <i class="icon icon-submission"></i>
+            <a-icon type="home" />
             <span>首&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;页</span>
-            <i class="icon icon-arrow-right"></i>
+            <a-icon type="arrow-right" />
           </li>
           <li @click="router.push('/user/profile')">
-            <i class="icon icon-user"></i>
+            <a-icon type="user" />
             <span>个人中心</span>
-            <i class="icon icon-arrow-right"></i>
+            <a-icon type="arrow-right" />
           </li>
           <li @click="router.push('/')">
-            <i class="icon icon-submission"></i>
-            <span>投稿管理</span>
-            <i class="icon icon-arrow-right"></i>
+            <a-icon type="appstore" />
+            <span>我的应用</span>
+            <a-icon type="arrow-right" />
           </li>
           <li @click="router.push('/user/profile')">
-            <i class="icon icon-service"></i>
+            <a-icon type="star" />
             <span>推荐服务</span>
-            <i class="icon icon-arrow-right"></i>
+            <a-icon type="arrow-right" />
           </li>
           <a-divider />
           <li @click="logOut">
-            <i class="icon icon-logout"></i>
+            <a-icon type="logout" />
             <span>退出登录</span>
           </li>
         </ul>
@@ -36,8 +36,8 @@
         <a-form
           :model="form"
           :style="{ width: '480px', margin: '0 auto' }"
-          auto-label-width
-          label-align="left"
+          label-col="{ span: 6 }"
+          wrapper-col="{ span: 18 }"
         >
           <a-form-item label="用户名">
             <a-input v-model="form.userName" />
@@ -48,7 +48,7 @@
         </a-form>
         <a-button type="primary" @click="updateProfile">保存</a-button>
       </div>
-      <a-modal v-model:visible="visible" @close="visible = false" @ok="logOut">
+      <a-modal :visible="visible" @cancel="visible = false" @ok="logOut">
         <template #title>
           <span>提示</span>
         </template>
@@ -57,20 +57,17 @@
     </a-layout-content>
   </a-layout>
 </template>
+
 <script lang="ts" setup>
-import { reactive, ref } from "vue";
-import API from "@/api";
-import message from "@arco-design/web-vue/es/message";
+import { reactive, ref } from 'vue';
+import API from '@/api';
+import { message } from 'ant-design-vue';
 import {
   updateMyUserUsingPost,
   userLogoutUsingPost,
-} from "@/api/userController";
-import { useLoginUserStore } from "@/store/userStore";
-import { useRouter } from "vue-router";
-
-interface RouterKey {
-  router: string;
-}
+} from '@/api/userController';
+import { useLoginUserStore } from '@/store/userStore';
+import { useRouter } from 'vue-router';
 
 const loginUserStore = useLoginUserStore();
 const router = useRouter();
@@ -81,22 +78,16 @@ const form = reactive({
   ...loginUserStore.loginUser,
 } as API.UserUpdateRequest);
 
-const navigate = (key: RouterKey) => {
-  router.push(key.router);
-};
-
 const updateProfile = async () => {
-  updateMyUserUsingPost(form).then(() => {
-    message.success("更新成功");
-    router.push("/user/profile");
-  });
+  await updateMyUserUsingPost(form);
+  message.success('更新成功');
+  router.push('/user/profile');
 };
 
 const logOut = async () => {
-  userLogoutUsingPost().then(() => {
-    message.success("退出成功");
-    router.push("/user/login");
-  });
+  await userLogoutUsingPost();
+  message.success('退出成功');
+  router.push('/user/login');
 };
 </script>
 
@@ -105,11 +96,6 @@ const logOut = async () => {
   margin: 0;
   padding: 0;
   list-style: none;
-}
-
-.sidebar-menu li i.icon {
-  margin-right: 10px;
-  font-size: 20px;
 }
 
 .sidebar-menu li {
@@ -126,11 +112,5 @@ const logOut = async () => {
 
 .sidebar-menu li span {
   flex-grow: 1;
-}
-
-hr {
-  margin: 10px 0;
-  border: none;
-  border-top: 1px solid #e0e0e0;
 }
 </style>

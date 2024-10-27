@@ -21,10 +21,10 @@
         <a-input v-model="form.resultDesc" placeholder="请输入结果描述" />
       </a-form-item>
       <a-form-item field="resultPicture" label="结果图标">
-        <a-input
-          v-model="form.resultPicture"
-          placeholder="请输入结果图标地址"
-        />
+        <PictureUploader
+          :value="form.resultPicture"
+          :onChange="(value: string) => (form.resultPicture = value)"
+          biz="scoring_result_picture"/>
       </a-form-item>
       <a-form-item field="resultProp" label="结果集">
         <a-input-tag
@@ -61,6 +61,7 @@ import {
   editScoringResultUsingPost,
 } from "@/api/scoringResultController";
 import message from "@arco-design/web-vue/es/message";
+import PictureUploader from "@/components/PictureUploader.vue";
 
 interface Props {
   appId: string;

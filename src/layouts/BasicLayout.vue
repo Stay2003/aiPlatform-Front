@@ -1,18 +1,18 @@
 <template>
   <div id="basicLayout">
-    <a-layout style="height: 100vh">
-      <a-layout-header class="header">
+    <el-container style="height: 100vh">
+      <el-header class="header">
         <GlobalHeader />
-      </a-layout-header>
-      <a-layout-content class="content">
+      </el-header>
+      <el-main class="content">
         <router-view />
-      </a-layout-content>
-      <a-layout-footer class="footer">
+      </el-main>
+      <el-footer class="footer">
         <a href="https://github.com/Stay2003" target="_blank">
           编程 by 程序员思源
         </a>
-      </a-layout-footer>
-    </a-layout>
+      </el-footer>
+    </el-container>
   </div>
 </template>
 

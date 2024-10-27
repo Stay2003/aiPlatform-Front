@@ -1,6 +1,6 @@
 <template>
-  <div id="addAppPage">
-    <h2 style="margin-bottom: 32px">创建应用</h2>
+  <div id="addAppPage" class="form-container">
+    <h2>创建应用</h2>
     <a-form
       :model="form"
       :style="{ width: '480px' }"
@@ -14,15 +14,13 @@
       <a-form-item field="appDesc" label="应用描述">
         <a-input v-model="form.appDesc" placeholder="请输入应用描述" />
       </a-form-item>
-<!--      <a-form-item field="appIcon" label="应用图标">-->
-<!--        <a-input v-model="form.appIcon" placeholder="请输入应用图标" />-->
-<!--      </a-form-item>-->
-            <a-form-item field="appIcon" label="应用图标">
-              <PictureUploader
-                :value="form.appIcon"
-                :onChange="(value) => (form.appIcon = value)"
-               biz="app_icon"/>
-            </a-form-item>
+      <a-form-item field="appIcon" label="应用图标">
+        <PictureUploader
+          :value="form.appIcon"
+          :onChange="(value) => (form.appIcon = value)"
+          biz="app_icon"
+        />
+      </a-form-item>
       <a-form-item field="appType" label="应用类型">
         <a-select
           v-model="form.appType"
@@ -31,6 +29,7 @@
         >
           <a-option
             v-for="(value, key) of APP_TYPE_MAP"
+            :key="key"
             :value="Number(key)"
             :label="value"
           />
@@ -44,6 +43,7 @@
         >
           <a-option
             v-for="(value, key) of APP_SCORING_STRATEGY_MAP"
+            :key="key"
             :value="Number(key)"
             :label="value"
           />
@@ -61,7 +61,7 @@
 <script setup lang="ts">
 import { defineProps, ref, watchEffect, withDefaults } from "vue";
 import API from "@/api";
-import message from "@arco-design/web-vue/es/message";
+import message from "@arco-design/web-vue/es/message"; // Assuming this is correct
 import { useRouter } from "vue-router";
 import {
   addAppUsingPost,
@@ -71,22 +71,18 @@ import {
 import { APP_SCORING_STRATEGY_MAP, APP_TYPE_MAP } from "@/constant/app";
 import PictureUploader from "@/components/PictureUploader.vue";
 
-//使用接口 Props 定义组件接受的属性 id，其类型为字符串。
 interface Props {
   id: string;
 }
 
-//使用 withDefaults 设置 id 的默认值为空字符串。
 const props = withDefaults(defineProps<Props>(), {
   id: () => {
     return "";
   },
 });
 
-//useRouter 获取路由对象以便进行页面跳转
 const router = useRouter();
 
-//表单字段
 const form = ref({
   appDesc: "",
   appIcon: "",
@@ -95,12 +91,8 @@ const form = ref({
   scoringStrategy: 0,
 } as API.AppAddRequest);
 
-//存放旧应用数据（在编辑模式下使用）
 const oldApp = ref<API.AppVO>();
 
-/**
- * 加载数据
- */
 const loadData = async () => {
   if (!props.id) {
     return;
@@ -116,24 +108,18 @@ const loadData = async () => {
   }
 };
 
-// 获取旧数据
 watchEffect(() => {
   loadData();
 });
 
-/**
- * 提交
- */
 const handleSubmit = async () => {
   let res: any;
-  // 如果是修改
   if (props.id) {
     res = await editAppUsingPost({
       id: props.id as any,
       ...form.value,
     });
   } else {
-    // 创建
     res = await addAppUsingPost(form.value);
   }
   if (res.data.code === 0) {
@@ -146,3 +132,18 @@ const handleSubmit = async () => {
   }
 };
 </script>
+
+<style scoped>
+#addAppPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 水平居中 */
+  padding: 20px;
+  margin-top: 20px; /* 添加这个属性，调整向下的距离 */
+}
+
+
+h2 {
+  margin-bottom: 32px;
+}
+</style>

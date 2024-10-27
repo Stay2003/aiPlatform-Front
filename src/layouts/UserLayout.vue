@@ -1,21 +1,21 @@
 <template>
   <div id="userLayout">
-    <a-layout style="height: 100vh">
-      <a-layout-header class="header">
-        <a-space>
+    <el-container style="height: 100vh">
+      <el-header class="header">
+        <el-space>
           <img class="logo" src="../assets/logo.png" />
           <div>元答答 AI 答题应用平台</div>
-        </a-space>
-      </a-layout-header>
-      <a-layout-content class="content">
+        </el-space>
+      </el-header>
+      <el-main class="content">
         <router-view />
-      </a-layout-content>
-      <a-layout-footer class="footer">
+      </el-main>
+      <el-footer class="footer">
         <a href="https://github.com/Stay2003" target="_blank">
           编程导航 by 程序员思源
         </a>
-      </a-layout-footer>
-    </a-layout>
+      </el-footer>
+    </el-container>
   </div>
 </template>
 
@@ -25,7 +25,7 @@
 #userLayout {
   text-align: center;
   background: url("https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png")
-    0% 0% / 100% 100%;
+  0% 0% / 100% 100%;
 }
 
 #userLayout .logo {
