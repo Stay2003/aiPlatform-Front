@@ -1,66 +1,60 @@
 <template>
-  <div id="addAppPage">
-    <h2 style="margin-bottom: 32px">创建应用</h2>
-    <a-form
+  <div id="addAppPage" class="form-container">
+    <div class="back-button">
+      <el-button round @click="goBack"><el-icon><Back /></el-icon>返回</el-button>
+    </div>
+    <h2>创建应用</h2>
+    <el-form
       :model="form"
       :style="{ width: '480px' }"
-      label-align="left"
-      auto-label-width
-      @submit="handleSubmit"
+      label-position="left"
+      :label-width="'100px'"
+      @submit.prevent="handleSubmit"
     >
-      <a-form-item field="appName" label="应用名称">
-        <a-input v-model="form.appName" placeholder="请输入应用名称" />
-      </a-form-item>
-      <a-form-item field="appDesc" label="应用描述">
-        <a-input v-model="form.appDesc" placeholder="请输入应用描述" />
-      </a-form-item>
-<!--      <a-form-item field="appIcon" label="应用图标">-->
-<!--        <a-input v-model="form.appIcon" placeholder="请输入应用图标" />-->
-<!--      </a-form-item>-->
-            <a-form-item field="appIcon" label="应用图标">
-              <PictureUploader
-                :value="form.appIcon"
-                :onChange="(value) => (form.appIcon = value)"
-               biz="app_icon"/>
-            </a-form-item>
-      <a-form-item field="appType" label="应用类型">
-        <a-select
-          v-model="form.appType"
-          :style="{ width: '320px' }"
-          placeholder="请选择应用类型"
-        >
-          <a-option
+      <el-form-item label="应用名称" prop="appName">
+        <el-input v-model="form.appName" placeholder="请输入应用名称" />
+      </el-form-item>
+      <el-form-item label="应用描述" prop="appDesc">
+        <el-input v-model="form.appDesc" placeholder="请输入应用描述" />
+      </el-form-item>
+      <el-form-item label="应用图标" prop="appIcon">
+        <PictureUploader
+          :value="form.appIcon"
+          :onChange="(value) => (form.appIcon = value)"
+          biz="app_icon"
+        />
+      </el-form-item>
+      <el-form-item label="应用类型" prop="appType">
+        <el-select v-model="form.appType" placeholder="请选择应用类型">
+          <el-option
             v-for="(value, key) of APP_TYPE_MAP"
+            :key="key"
             :value="Number(key)"
             :label="value"
           />
-        </a-select>
-      </a-form-item>
-      <a-form-item field="scoringStrategy" label="评分策略">
-        <a-select
-          v-model="form.scoringStrategy"
-          :style="{ width: '320px' }"
-          placeholder="请选择评分策略"
-        >
-          <a-option
+        </el-select>
+      </el-form-item>
+      <el-form-item label="评分策略" prop="scoringStrategy">
+        <el-select v-model="form.scoringStrategy" placeholder="请选择评分策略">
+          <el-option
             v-for="(value, key) of APP_SCORING_STRATEGY_MAP"
+            :key="key"
             :value="Number(key)"
             :label="value"
           />
-        </a-select>
-      </a-form-item>
-      <a-form-item>
-        <a-button type="primary" html-type="submit" style="width: 120px">
-          提交
-        </a-button>
-      </a-form-item>
-    </a-form>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" html-type="submit" style="width: 120px">
+          提交审核
+        </el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
 <script setup lang="ts">
 import { defineProps, ref, watchEffect, withDefaults } from "vue";
-import API from "@/api";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 import {
@@ -70,23 +64,20 @@ import {
 } from "@/api/appController";
 import { APP_SCORING_STRATEGY_MAP, APP_TYPE_MAP } from "@/constant/app";
 import PictureUploader from "@/components/PictureUploader.vue";
+import { Back } from '@element-plus/icons-vue';
 
-//使用接口 Props 定义组件接受的属性 id，其类型为字符串。
 interface Props {
   id: string;
 }
 
-//使用 withDefaults 设置 id 的默认值为空字符串。
 const props = withDefaults(defineProps<Props>(), {
   id: () => {
     return "";
   },
 });
 
-//useRouter 获取路由对象以便进行页面跳转
 const router = useRouter();
 
-//表单字段
 const form = ref({
   appDesc: "",
   appIcon: "",
@@ -95,12 +86,8 @@ const form = ref({
   scoringStrategy: 0,
 } as API.AppAddRequest);
 
-//存放旧应用数据（在编辑模式下使用）
 const oldApp = ref<API.AppVO>();
 
-/**
- * 加载数据
- */
 const loadData = async () => {
   if (!props.id) {
     return;
@@ -116,24 +103,18 @@ const loadData = async () => {
   }
 };
 
-// 获取旧数据
 watchEffect(() => {
   loadData();
 });
 
-/**
- * 提交
- */
 const handleSubmit = async () => {
   let res: any;
-  // 如果是修改
   if (props.id) {
     res = await editAppUsingPost({
       id: props.id as any,
       ...form.value,
     });
   } else {
-    // 创建
     res = await addAppUsingPost(form.value);
   }
   if (res.data.code === 0) {
@@ -145,4 +126,28 @@ const handleSubmit = async () => {
     message.error("操作失败，" + res.data.message);
   }
 };
+
+// 返回功能
+const goBack = () => {
+  router.push("/");
+};
 </script>
+
+<style scoped>
+#addAppPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 水平居中 */
+  padding: 20px;
+  margin-top: 20px; /* 添加这个属性，调整向下的距离 */
+}
+
+.back-button {
+  align-self: flex-start; /* 将返回按钮定位到左上角 */
+  margin-bottom: 16px; /* 设置返回按钮与标题之间的间距 */
+}
+
+h2 {
+  margin-bottom: 32px;
+}
+</style>
