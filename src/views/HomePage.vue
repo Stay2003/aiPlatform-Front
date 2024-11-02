@@ -101,9 +101,9 @@ const onSearch = () => {
   loadData();
 };
 
-const goToCreateApp = () => {
-  router.push("/add/app");
-}
+// const goToCreateApp = () => {
+//   router.back();
+// }
 /**
  * 监听 searchParams 变量，改变时触发数据的重新加载
  */
@@ -120,7 +120,7 @@ watchEffect(() => {
 
 .search-bar {
   position: absolute;
-  right: 48%;
+  right: 42%;
   top: 50%;
   transform: translateY(-90%);
 
